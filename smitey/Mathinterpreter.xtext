@@ -1,0 +1,35 @@
+grammar smitey.Mathinterpreter with org.eclipse.xtext.common.Terminals
+
+generate mathinterpreter "http://www.Mathinterpreter.smitey"
+
+
+MathExp:
+	'result' 'is' exp=Exp
+;
+
+Exp: // Illegal due to left recursion
+	PlusOrMinus
+;
+
+PlusOrMinus returns Exp:
+	MulOrDiv (({Add.left=current} '+' | {Sub.left=current} '-') right=MulOrDiv)*
+;
+
+MulOrDiv returns Exp:
+	Primary (({Mul.left=current} '*' | {Div.left=current} '/') right=Primary)*
+;
+
+Primary:
+	Num | Parenthesis
+;
+
+Parenthesis:
+	'(' exp=Exp ')'
+;
+
+Num:
+	value=INT
+;
+
+
+

@@ -33,25 +33,12 @@ class MathinterpreterGenerator extends AbstractGenerator {
 		JOptionPane.showMessageDialog(null, "result = "+result,"Math Language", JOptionPane.INFORMATION_MESSAGE)
 	}
 	
-	//
-	// Compute function: computes value of expression
-	// Note: written according to illegal left-recursive grammar, requires fix
-	//
-	
 	def int compute(MathExp math) { 
 		math.exp.computePrim
 	}
 	
 	def dispatch int computePrim(Exp exp) {
-		System.out.println(exp)
-		val left = exp.computePrim
-		switch exp {
-			Add: {left}
-			Sub: {left}
-			Mul: {left}
-			Div: {left}
-			default: left
-		}
+		exp.computePrim
 	}
 	
 	def dispatch int computePrim(Parenthesis parant){
@@ -80,7 +67,6 @@ class MathinterpreterGenerator extends AbstractGenerator {
 
 	def CharSequence display(MathExp math) '''Math[«math.exp.displayExp»]'''
 	def CharSequence displayExp(Exp exp) '''Exp[«exp.displayOp»]'''
-	
 	def dispatch String displayOp(Add op) {'''(«op.left.displayOp»+«op.right.displayOp»)'''}
 	def dispatch String displayOp(Sub op) {'''(«op.left.displayOp»-«op.right.displayOp»)'''}
 	def dispatch String displayOp(Mul op) {'''(«op.left.displayOp»*«op.right.displayOp»)'''}
